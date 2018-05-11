@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			function msToTime(duration) {
+				var milliseconds = parseInt((duration % 1000) / 100),
+					seconds = parseInt((duration / 1000) % 60),
+					minutes = parseInt((duration / (1000 * 60)) % 60),
+					hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+				hours = (hours < 10) ? "0" + hours : hours;
+				minutes = (minutes < 10) ? "0" + minutes : minutes;
+				seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+				return hours + ":" + minutes;
+			}
+
+
+			$(".calc").live('change', function(){
+
+				var nm = $(this).attr('nm');
+				var checkout = $("[name='checkout_" + nm + "']").val();
+				var checkin = $("[name='checkin_" + nm + "']").val();
+
+				console.log(checkout);
+				console.log(checkin);
+
+				if (checkout == "" | checkin == "") return;
+
+				//create date format          
+				var timeStart = new Date("01/01/2007 " + checkin);
+				var timeEnd = new Date("01/01/2007 " + checkout);
+				console.log(timeEnd - timeStart - 3600000);
+				var hourDiff = msToTime(timeEnd - timeStart, 'hh:mm');
+				$('[name=work_time_' + nm + ']').val(hourDiff);
+			});
+
+			$('.calc').trigger('change');
+		});
+	</script>
+	<body>
+
+		<tr>
+			<td>
+				<input name="checkin_1" nm="1" type="text" class="timepicker1 w40 calc" value="">
+			</td>
+			<td>
+				<input name="checkout_1" nm="1" type="text" class="timepicker1 w40 calc" value="">
+			</td>
+			<td>
+				<input name="work_time_1" type="text" class="timepicker2 w40" value="" readonly>
+			</td>
+		</tr>
+
+	</body>
+</html>
+
